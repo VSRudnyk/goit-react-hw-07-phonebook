@@ -19,7 +19,7 @@ class App extends Component {
     const { contacts } = this.state;
     for (const contact of contacts) {
       if (contact.name === name) {
-        alert(name + ' is already in contacts.');
+        alert(`${name} is already in contacts.`);
         return;
       }
     }
