@@ -1,18 +1,21 @@
 import PropTypes from 'prop-types';
-import s from './Filter.module.css';
+import styled from 'styled-components';
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Input = styled.input`
+  width: 150px;
+`;
 
 const Filter = ({ value, onChange }) => {
   return (
-    <form className={s.form}>
+    <Form>
       <label htmlFor="filter">Find contact by name</label>
-      <input
-        className={s.input}
-        type="text"
-        id="filter"
-        onChange={onChange}
-        value={value}
-      />
-    </form>
+      <Input type="text" id="filter" onChange={onChange} value={value} />
+    </Form>
   );
 };
 
