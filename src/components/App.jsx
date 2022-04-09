@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
-import ContactForm from './ContactForm';
+import { ContactForm } from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
 
@@ -15,7 +15,9 @@ class App extends Component {
     filter: '',
   };
 
-  addContact = (name, number) => {
+  addContact = ({ name, number }) => {
+    console.log(name);
+    console.log(number);
     const { contacts } = this.state;
     for (const contact of contacts) {
       if (contact.name === name) {
