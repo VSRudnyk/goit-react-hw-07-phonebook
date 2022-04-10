@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
+import { FetchPhoto } from './FetchPhoto/FetchPhoto';
 
 export class App extends Component {
   state = {
     searchQuery: '',
-  };
-
-  status = {
-    idle: 'idle',
   };
 
   handleFormSubmit = searchQuery => {
@@ -15,6 +12,12 @@ export class App extends Component {
   };
 
   render() {
-    return <Searchbar onSubmit={this.handleFormSubmit} />;
+    const { searchQuery } = this.state;
+    return (
+      <>
+        <Searchbar onSubmit={this.handleFormSubmit} />
+        <FetchPhoto searchQuery={searchQuery} />
+      </>
+    );
   }
 }

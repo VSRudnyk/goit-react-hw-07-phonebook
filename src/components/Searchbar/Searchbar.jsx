@@ -22,7 +22,6 @@ const schema = yup.object().shape({
 
 export const Searchbar = ({ onSubmit }) => {
   const handleSubmit = ({ searchImage }, { resetForm }) => {
-    console.log(searchImage);
     onSubmit(searchImage);
     resetForm();
   };
