@@ -24,13 +24,20 @@ export class FetchPhoto extends Component {
       this.setState({ status: 'pending' });
       photoAPI
         .fetchPhoto(searchQuery, page)
-        .then(photoCards => this.setState({ photoCards, status: 'resolved' }))
+        .then(photoCards => {
+          console.log(photoCards.hits);
+          this.setState(prevState => ({
+            photoCards: [...prevState.photoCards, ...photoCards.hits],
+            status: 'resolved',
+          }));
+        })
         .catch(error => this.setState({ error, status: 'rejected' }));
     }
   }
 
   render() {
     const { status, photoCards } = this.state;
+    console.log(photoCards);
 
     if (status === 'pending') {
       return;
