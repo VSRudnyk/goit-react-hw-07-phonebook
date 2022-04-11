@@ -52,25 +52,3 @@ export const Searchbar = ({ onSubmit }) => {
     </Header>
   );
 };
-
-/* 
-      <Formik initialValues={initialValues}>
-        {' '}
-        onSubmit={handleSubmit}
-        
-        
-            <span class="button-label">Search</span>
-          </button>
-
-          <Field
-            class="input"
-            type="text"
-            autocomplete="off"
-            autofocus
-            name="searchImage"
-            placeholder="Search images and photos"
-          />
-          <ErrorMessage name="searchImage" />
-        </Form>
-      </Formik>
-    </header> */
