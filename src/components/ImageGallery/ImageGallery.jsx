@@ -4,6 +4,8 @@ import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import photoAPI from '../Api/fetchPhoto';
 import { List } from './ImageGallery.styled';
 import { Button } from 'components/Button/Button';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 export class ImageGallery extends Component {
   state = {
@@ -18,7 +20,13 @@ export class ImageGallery extends Component {
     }));
   };
 
+  simpleLightbox = () => {
+    var lightbox = new SimpleLightbox('.gallery a', {});
+    lightbox.refresh();
+  };
+
   componentDidUpdate(prevProps, prevState) {
+    this.simpleLightbox();
     const { page } = this.state;
     const { searchQuery } = this.props;
     if (prevProps.searchQuery !== searchQuery) {
@@ -47,12 +55,12 @@ export class ImageGallery extends Component {
 
     if (status === 'resolved') {
       return (
-        <>
+        <div class="gallery">
           <List>
             <ImageGalleryItem photoCards={photoCards} />
           </List>
           <Button onClick={this.LoadMorePhoto} />
-        </>
+        </div>
       );
     }
 
