@@ -1,8 +1,9 @@
-import { Button } from 'components/Button/Button';
 import React, { Component } from 'react';
+import { Spinner } from 'components/Spinner/Spinner';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import photoAPI from '../Api/fetchPhoto';
 import { List } from './ImageGallery.styled';
+import { Button } from 'components/Button/Button';
 
 export class ImageGallery extends Component {
   state = {
@@ -41,7 +42,7 @@ export class ImageGallery extends Component {
     const { status, photoCards } = this.state;
 
     if (status === 'pending') {
-      return;
+      return <Spinner />;
     }
 
     if (status === 'resolved') {
