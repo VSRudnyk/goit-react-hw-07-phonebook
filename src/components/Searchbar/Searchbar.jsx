@@ -1,6 +1,7 @@
 import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import { FcSearch } from 'react-icons/fc';
+import PropTypes from 'prop-types';
 import {
   Header,
   SearchForm,
@@ -8,6 +9,7 @@ import {
   SearchFormBtnLabel,
   SearchFormInput,
 } from './Searchbar.styled';
+
 const initialValues = {
   searchImage: '',
 };
@@ -51,4 +53,8 @@ export const Searchbar = ({ onSubmit }) => {
       </Formik>
     </Header>
   );
+};
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };

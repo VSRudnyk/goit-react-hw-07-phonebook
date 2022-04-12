@@ -6,6 +6,7 @@ import { List } from './ImageGallery.styled';
 import { Button } from 'components/Button/Button';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import PropTypes from 'prop-types';
 
 export class ImageGallery extends Component {
   state = {
@@ -55,7 +56,7 @@ export class ImageGallery extends Component {
 
     if (status === 'resolved') {
       return (
-        <div class="gallery">
+        <div className="gallery">
           <List>
             <ImageGalleryItem photoCards={photoCards} />
           </List>
@@ -69,3 +70,7 @@ export class ImageGallery extends Component {
     }
   }
 }
+
+ImageGallery.propTypes = {
+  searchQuery: PropTypes.string.isRequired,
+};
