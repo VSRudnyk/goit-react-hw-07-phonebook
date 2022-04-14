@@ -22,7 +22,7 @@ export class App extends Component {
   };
 
   handleFormSubmit = searchQuery => {
-    this.setState({ searchQuery });
+    this.setState({ searchQuery, page: 1 });
   };
 
   simpleLightbox = () => {
