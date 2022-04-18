@@ -5,6 +5,12 @@ import './Modal.css';
 const modalRoot = document.querySelector('#modal-root');
 
 export default class Modal extends Component {
+  // useEffect(() => {
+  //   window.addEventListener('keydown', handleOnKeyDown);
+  //   return () => {
+  //     window.removeEventListener('keydown', handleOnKeyDown);
+  //   };
+  // });
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
   }
