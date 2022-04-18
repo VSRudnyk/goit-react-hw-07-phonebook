@@ -6,7 +6,7 @@ import { Button } from 'components/Button/Button';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import photoAPI from './Api/fetchPhoto';
-import Modal from './Modal';
+import { Modal } from './Modal';
 
 export const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
