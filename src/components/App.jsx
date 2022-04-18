@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
+// import SimpleLightbox from 'simplelightbox';
+// import 'simplelightbox/dist/simple-lightbox.min.css';
 import { Spinner } from 'components/Spinner/Spinner';
 import { Button } from 'components/Button/Button';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import photoAPI from './Api/fetchPhoto';
+import Modal from './Modal';
 
 export const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [photoCards, setPhotoCards] = useState([]);
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState('idle');
+  const [showModal, setShowModal] = useState(false);
+  const [largeImageURL, setLargeImageURL] = useState('');
 
   const loadMorePhoto = () => {
     setPage(s => s + 1);
@@ -23,13 +26,12 @@ export const App = () => {
     setPage(1);
   };
 
-  const simpleLightbox = () => {
-    var lightbox = new SimpleLightbox('.gallery a');
-    lightbox.refresh();
+  const toggleModal = largeImageURL => {
+    setShowModal(s => !s);
+    setLargeImageURL(largeImageURL);
   };
 
   useEffect(() => {
-    simpleLightbox();
     if (searchQuery === '') {
       return;
     }
@@ -39,6 +41,7 @@ export const App = () => {
       .fetchPhoto(searchQuery, page)
       .then(photoCards => {
         setPhotoCards(s => [...s, ...photoCards.hits]);
+
         setStatus('resolved');
       })
       .catch(error => setStatus('rejected'));
@@ -55,8 +58,13 @@ export const App = () => {
   if (status === 'resolved') {
     return (
       <>
+        {showModal && (
+          <Modal onClose={toggleModal} largeImageURL={largeImageURL} />
+        )}
+
         <Searchbar onSubmit={handleFormSubmit} />
-        <ImageGallery photoCards={photoCards} />
+        <ImageGallery photoCards={photoCards} openModal={toggleModal} />
+        {/* {simpleLightbox()} */}
         <Button onClick={loadMorePhoto} />
       </>
     );
