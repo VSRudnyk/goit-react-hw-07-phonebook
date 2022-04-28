@@ -1,156 +1,58 @@
-import { useState, useEffect } from 'react';
-// import SimpleLightbox from 'simplelightbox';
-// import 'simplelightbox/dist/simple-lightbox.min.css';
-import { Spinner } from 'components/Spinner/Spinner';
-import { Button } from 'components/Button/Button';
-import { Searchbar } from './Searchbar/Searchbar';
-import { ImageGallery } from 'components/ImageGallery/ImageGallery';
-import photoAPI from './Api/fetchPhoto';
-import { Modal } from './Modal';
+import { ContactForm } from './ContactForm';
+import ContactList from './ContactList';
+import { useDispatch, useSelector } from 'react-redux';
+import { addMyContact, removeMyContact, filterMyContacts } from 'redux/store';
+import { nanoid } from 'nanoid';
+import { Container } from './App.styled';
+import Filter from './Filter';
 
-export const App = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [photoCards, setPhotoCards] = useState([]);
-  const [page, setPage] = useState(1);
-  const [status, setStatus] = useState('idle');
-  const [showModal, setShowModal] = useState(false);
-  const [largeImageURL, setLargeImageURL] = useState('');
+const App = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.items);
+  const filter = useSelector(state => state.contacts.filter);
 
-  const loadMorePhoto = () => {
-    setPage(s => s + 1);
-  };
-
-  const handleFormSubmit = searchQuery => {
-    setPhotoCards([]);
-    setSearchQuery(searchQuery);
-    setPage(1);
-  };
-
-  const toggleModal = largeImageURL => {
-    setShowModal(s => !s);
-    setLargeImageURL(largeImageURL);
-  };
-
-  useEffect(() => {
-    if (searchQuery === '') {
-      return;
+  const addContact = ({ name, number }) => {
+    for (const contact of contacts) {
+      if (contact.name === name) {
+        alert(`${name} is already in contacts.`);
+        return;
+      }
     }
-    setStatus('pending');
+    const contact = {
+      id: nanoid(),
+      name,
+      number,
+    };
+    dispatch(addMyContact(contact));
+  };
 
-    photoAPI
-      .fetchPhoto(searchQuery, page)
-      .then(photoCards => {
-        setPhotoCards(s => [...s, ...photoCards.hits]);
+  const deleteContact = contactId => {
+    dispatch(removeMyContact(contactId));
+  };
 
-        setStatus('resolved');
-      })
-      .catch(error => setStatus('rejected'));
-  }, [page, searchQuery]);
+  const changeFilter = e => {
+    dispatch(filterMyContacts(e.currentTarget.value));
+  };
 
-  if (status === 'idle') {
-    return <Searchbar onSubmit={handleFormSubmit} />;
-  }
-
-  if (status === 'pending') {
-    return <Spinner />;
-  }
-
-  if (status === 'resolved') {
-    return (
-      <>
-        {showModal && (
-          <Modal onClose={toggleModal} largeImageURL={largeImageURL} />
-        )}
-
-        <Searchbar onSubmit={handleFormSubmit} />
-        <ImageGallery photoCards={photoCards} openModal={toggleModal} />
-        {/* {simpleLightbox()} */}
-        <Button onClick={loadMorePhoto} />
-      </>
+  const getVisibleContacts = () => {
+    const normalizedFilter = filter.toLowerCase();
+    return contacts.filter(({ name }) =>
+      name.toLowerCase().includes(normalizedFilter)
     );
-  }
+  };
 
-  if (status === 'rejected') {
-    return;
-  }
+  const visibleContacts = getVisibleContacts();
+
+  return (
+    <Container>
+      <h1>Phonebook</h1>
+      <ContactForm addContact={addContact} />
+
+      <h2>Contacts</h2>
+      <Filter value={filter} onChange={changeFilter} />
+      <ContactList items={visibleContacts} onDeleteContact={deleteContact} />
+    </Container>
+  );
 };
 
-// import React, { Component } from 'react';
-// import { Spinner } from 'components/Spinner/Spinner';
-// import { Button } from 'components/Button/Button';
-// import { Searchbar } from './Searchbar/Searchbar';
-// import { ImageGallery } from 'components/ImageGallery/ImageGallery';
-// import photoAPI from './Api/fetchPhoto';
-// import SimpleLightbox from 'simplelightbox';
-// import 'simplelightbox/dist/simple-lightbox.min.css';
-
-// export class App extends Component {
-//   state = {
-//     searchQuery: '',
-//     photoCards: [],
-//     page: 1,
-//     status: 'idle',
-//   };
-
-//   LoadMorePhoto = () => {
-//     this.setState(prevState => ({
-//       page: prevState.page + 1,
-//     }));
-//   };
-
-//   handleFormSubmit = searchQuery => {
-//     this.setState({ searchQuery, page: 1 });
-//   };
-
-//   simpleLightbox = () => {
-//     var lightbox = new SimpleLightbox('.gallery a', {});
-//     lightbox.refresh();
-//   };
-
-//   componentDidUpdate(prevProps, prevState) {
-//     this.simpleLightbox();
-//     const { page, searchQuery } = this.state;
-
-//     if (prevState.searchQuery !== searchQuery) {
-//       this.setState({ photoCards: [] });
-//     }
-//     if (prevState.searchQuery !== searchQuery || prevState.page !== page) {
-//       this.setState({ status: 'pending' });
-//       photoAPI
-//         .fetchPhoto(searchQuery, page)
-//         .then(photoCards => {
-//           this.setState(prevState => ({
-//             photoCards: [...prevState.photoCards, ...photoCards.hits],
-//             status: 'resolved',
-//           }));
-//         })
-//         .catch(error => this.setState({ error, status: 'rejected' }));
-//     }
-//   }
-
-//   render() {
-//     const { status, photoCards } = this.state;
-
-//     if (status === 'idle') {
-//       return <Searchbar onSubmit={this.handleFormSubmit} />;
-//     }
-
-//     if (status === 'pending') {
-//       return <Spinner />;
-//     }
-
-//     if (status === 'resolved') {
-//       return (
-//         <>
-//           <Searchbar onSubmit={this.handleFormSubmit} />
-//           <ImageGallery photoCards={photoCards} />
-//           <Button onClick={this.LoadMorePhoto} />
-//         </>
-//       );
-//     }
-
-//     if (status === 'rejected') {
-//       return;
-//     }
-//   }
-// }
+export default App;
