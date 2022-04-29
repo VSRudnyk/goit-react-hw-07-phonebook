@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import PropTypes from 'prop-types';
 import { Form, Input, Submit, ErrorMessage } from './ContactForm.styled';
 
 const schema = yup.object().shape({
@@ -42,4 +43,8 @@ export const ContactForm = ({ addContact }) => {
       <Submit type="submit">Add contact</Submit>
     </Form>
   );
+};
+
+ContactForm.propTypes = {
+  addContact: PropTypes.func.isRequired,
 };
