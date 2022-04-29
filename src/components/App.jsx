@@ -7,6 +7,7 @@ import {
   filterMyContacts,
   getContactsValue,
 } from 'redux/myContactsSlice';
+
 import { nanoid } from 'nanoid';
 import { Container } from './App.styled';
 import Filter from './Filter';
