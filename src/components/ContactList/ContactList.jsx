@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
-import { List, Item } from './ContactList.styled';
+import { List } from './ContactList.styled';
+import { ContactListItem } from 'components/ContactListItem/ContactListItem';
 
-const ContactList = ({ items, onDeleteContact }) => {
+const ContactList = ({ items }) => {
   return (
-    <List>
-      {items.map(({ id, name, number }) => (
-        <Item key={id}>
-          {name}: {number}
-          <button type="button" onClick={() => onDeleteContact(id)}>
-            Delete
-          </button>
-        </Item>
-      ))}
-    </List>
+    <>
+      {items && (
+        <List>
+          {items.map(contact => (
+            <ContactListItem key={contact.id} {...contact} />
+          ))}
+        </List>
+      )}
+    </>
   );
 };
 
@@ -24,7 +24,6 @@ ContactList.propTypes = {
       number: PropTypes.string.isRequired,
     })
   ),
-  onDeleteContact: PropTypes.func.isRequired,
 };
 
 export default ContactList;

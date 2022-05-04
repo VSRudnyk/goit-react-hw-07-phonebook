@@ -2,7 +2,7 @@
   "name": "react-homework-template",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://VSRudnyk.github.io/goit-react-hw-06-phonebook/",
+  "homepage": "https://VSRudnyk.github.io/goit-react-hw-07-phonebook/",
   "dependencies": {
     "@hookform/resolvers": "^2.8.8",
     "@reduxjs/toolkit": "^1.8.1",
@@ -12,6 +12,8 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.30.0",
+    "react-hot-toast": "^2.2.0",
+    "react-loader-spinner": "^6.0.0-0",
     "react-redux": "^8.0.1",
     "react-scripts": "5.0.0",
     "redux-persist": "^6.0.0",

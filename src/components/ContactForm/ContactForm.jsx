@@ -2,8 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import PropTypes from 'prop-types';
 import { Form, Input, Submit, ErrorMessage } from './ContactForm.styled';
+import { useAddContactMutation } from 'redux/myContactsSlice';
 
 const schema = yup.object().shape({
   name: yup.string().required(),
@@ -25,9 +25,11 @@ export const ContactForm = ({ addContact }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const { isLoading } = useAddContactMutation();
 
   const onSubmit = values => {
     addContact(values);
+
     reset();
   };
 
@@ -40,11 +42,9 @@ export const ContactForm = ({ addContact }) => {
       <label htmlFor="number">Number</label>
       <Input type="tel" name="number" id="number" {...register('number')} />
       <ErrorMessage>{errors.number?.message}</ErrorMessage>
-      <Submit type="submit">Add contact</Submit>
+      <Submit type="submit" disabled={isLoading}>
+        Add contact
+      </Submit>
     </Form>
   );
-};
-
-ContactForm.propTypes = {
-  addContact: PropTypes.func.isRequired,
 };
